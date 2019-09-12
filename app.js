@@ -1,5 +1,6 @@
 const request = require('request')
 const yargs = require('yargs')
+const geocode = require('./utils/geocode')
 
 const url = 'https://api.darksky.net/forecast/your_key/37.8267,-122.4233?units=us'
 let address
@@ -34,23 +35,7 @@ request({url: geocodeURL, json: true}, (error, response) => {
     }
 })
 
-const geocode = (address, callback) => {
-    const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + encodeURIComponent(address) + '.json?access_token=your_key&limit=1'
 
-    request({ url: url, json: true }, (error, response) => {
-        if(error) {
-            callback('Unable to connect to location services!', undefined)
-        } else if(response.body.features.length === 0) {
-            callback('Unable to find location. Try another search.', undefined)
-        } else {
-            callback(undefined, {
-                latitude: response.body.features[0].center[1],
-                longitude: response.body.features[0].center[0],
-                location: response.body.features[0].place_name
-            })
-        }
-    })
-}
 
 geocode('New York', (error, data) => {  //defining callback the way most libraries define it (1st arg: error, 2nd: data)
     console.log('Error', error)
