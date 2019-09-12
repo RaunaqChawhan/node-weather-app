@@ -39,14 +39,26 @@ const forecast = require('./utils/forecast')
 
 
 geocode('New York', (error, data) => {  //defining callback the way most libraries define it (1st arg: error, 2nd: data)
-    console.log('Error', error)
-    console.log('Data', data)
+    if(error) {
+        return console.log(error)
+    }
+    // console.log('Error', error)
+    // console.log('Data', data)
+
+    forecast(data.latitude, data.longitude, (error, forecastData) => {
+        // console.log('Error', error)
+        // console.log('Data', data)
+
+        if(error) {
+            return console.log(error)
+        }
+        
+        console.log(data.location)
+        console.log(forecastData)
+    })
 })
 
-forecast(-75.7088, 44.1545, (error, data) => {
-    console.log('Error', error)
-    console.log('Data', data)
-})
+
 
 
 // yargs.command({
